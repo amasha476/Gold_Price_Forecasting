@@ -1,0 +1,148 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Price Forecasting Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+            text-align: left;
+        }
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            margin-top: 30px;
+            color: #333;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        table {
+        width: 100%; /* or a specific width, depending on your needs */
+        border-collapse: collapse;
+    }
+    th, td {
+        text-align: center;
+        padding: 8px;
+        border: 1px solid #ddd;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    
+         /* Added styles for the navigation link */
+         .nav-links {
+            margin-bottom: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+            margin: 0 10px;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gold Price Forecasting Tool</h1>
+        <div class="nav-links">
+            <a href="{{ url_for('static', filename = 'HistoricalTrends.html') }}" target="_blank">View Historical Trends</a>
+        </div>
+        <form action="/" method="post">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" min="2023-09-30" value="2023-09-30" readonly required>
+
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" min="2023-09-30" max="2024-09-30" required>
+
+            <input type="submit" value="Generate Forecast">
+        </form>
+        <br>
+        {% if img_base64 %}
+            <h4>Forecast Plot</h4>
+            <img src="data:image/png;base64,{{ img_base64 }}" alt="Forecast Plot">
+            <br>
+            <h4>Forecasted Values</h4>
+            <div style="overflow-x:auto; text-align: center;">
+                <center>
+                    <table style="margin: 0 auto;">
+                        {{ table_html|safe }}
+                    </table>
+                </center>
+            </div>
+            <form action="/export" method="post">
+                <!-- Hidden inputs to pass start and end dates to the export route -->
+                <input type="hidden" name="start_date" value="{{ request.form['start_date'] }}">
+                <input type="hidden" name="end_date" value="{{ request.form['end_date'] }}">
+                <br>
+                <button type="submit">Export to CSV</button>
+            </form>
+            
+    
+        {% endif %}
+    </div>
+</body>
+</html>
+
