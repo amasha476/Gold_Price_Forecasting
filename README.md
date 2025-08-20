@@ -1,6 +1,10 @@
 ## About The Project
 
 This is a Python Flask application developed to get Gold Price Forecasts.
+The project is based on the Time series analysis on Gold prices. 
+
+## Techniques used
+Python  LSTM, RNN, Flask, HTML & CSS For UI
 
 ### Dataset
 
